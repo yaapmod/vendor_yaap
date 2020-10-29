@@ -137,4 +137,4 @@ ifeq ($(TARGET_BUILD_GAPPS),true)
     $(call inherit-product, vendor/prebuilts/config/apex.mk)
 endif
 
-$(call inherit-product, vendor/themes/common.mk)
+# $(call inherit-product, vendor/themes/common.mk)
