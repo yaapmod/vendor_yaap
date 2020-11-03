@@ -121,7 +121,7 @@ include vendor/yaap/config/version.mk
 PRODUCT_DEXPREOPT_SPEED_APPS += \
     Settings \
     SystemUI \
-    Launcher3QuickStep
+    NexusLauncherRelease
 
 # Themed bootanimation
 TARGET_MISC_BLOCK_OFFSET ?= 0
