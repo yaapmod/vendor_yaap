@@ -119,6 +119,14 @@ PRODUCT_DEXPREOPT_SPEED_APPS += \
     SystemUI \
     NexusLauncherRelease
 
+# Themed bootanimation
+TARGET_MISC_BLOCK_OFFSET ?= 0
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
+    ro.misc.block.offset=$(TARGET_MISC_BLOCK_OFFSET)
+PRODUCT_PACKAGES += \
+    misc_writer_system \
+    themed_bootanimation
+
 ifeq ($(TARGET_BUILD_GAPPS),true)
     $(call inherit-product-if-exists, vendor/google/gms/config.mk)
     $(call inherit-product-if-exists, vendor/google/pixel/config.mk)
