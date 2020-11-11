@@ -34,12 +34,17 @@ endif
 PRODUCT_PROPERTY_OVERRIDES += \
     net.hostname=$(TARGET_VENDOR_DEVICE_NAME) \
 
+#Blurr
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
+    ro.sf.blurs_are_expensive=1 \
+    ro.surface_flinger.supports_background_blur=1 \
+    persist.sys.sf.disable_blurs=1
+
 # Backup Tool
 PRODUCT_COPY_FILES += \
     vendor/yaap/prebuilt/common/bin/backuptool.sh:install/bin/backuptool.sh \
     vendor/yaap/prebuilt/common/bin/backuptool.functions:install/bin/backuptool.functions \
-    vendor/yaap/prebuilt/common/bin/50-base.sh:$(TARGET_COPY_OUT_SYSTEM)/addon.d/50-base.sh \
-    vendor/yaap/prebuilt/common/bin/blacklist:$(TARGET_COPY_OUT_SYSTEM)/addon.d/blacklist
+    vendor/yaap/prebuilt/common/bin/50-base.sh:$(TARGET_COPY_OUT_SYSTEM)/addon.d/50-base.sh 
 
 ifneq ($(AB_OTA_PARTITIONS),)
 PRODUCT_COPY_FILES += \
@@ -51,13 +56,6 @@ endif
 # Charger
 PRODUCT_PACKAGES += \
     charger_res_images
-
-# Configs
-PRODUCT_COPY_FILES += \
-    vendor/yaap/prebuilt/common/etc/sysconfig/yaap-power-whitelist.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/sysconfig/yaap-power-whitelist.xml \
-    vendor/yaap/prebuilt/common/etc/sysconfig/dialer_experience.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/sysconfig/dialer_experience.xml \
-    vendor/yaap/prebuilt/common/etc/sysconfig/turbo.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/sysconfig/turbo.xml \
-    vendor/yaap/prebuilt/common/etc/sysconfig/org.pixelexperience.weather.client-default.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/default-permissions/org.pixelexperience.weather.client.xml
 
 # Copy all AOSiP-specific init rc files
 $(foreach f,$(wildcard vendor/yaap/prebuilt/common/etc/init/*.rc),\
@@ -90,8 +88,6 @@ endif
 # Permissions
 PRODUCT_COPY_FILES += \
     vendor/yaap/prebuilt/common/etc/permissions/yaap-privapp-permissions.xml:system/etc/permissions/yaap-privapp-permissions.xml \
-    vendor/yaap/prebuilt/common/etc/permissions/org.pixelexperience.weather.client.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/org.pixelexperience.weather.client.xml \
-    vendor/yaap/prebuilt/common/etc/permissions/privapp-permissions-elgoog.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/privapp-permissions-elgoog.xml
 
 # Enable Android Beam on all targets
 PRODUCT_COPY_FILES += \
@@ -109,7 +105,7 @@ PRODUCT_PACKAGE_OVERLAYS += vendor/yaap/overlay/common
 PRODUCT_RESTRICT_VENDOR_FILES := false
 
 # Bootanimation
-#include vendor/yaap/config/bootanimation.mk
+include vendor/yaap/config/bootanimation.mk
 
 
 # Packages
@@ -122,14 +118,6 @@ PRODUCT_DEXPREOPT_SPEED_APPS += \
     Settings \
     SystemUI \
     NexusLauncherRelease
-
-# Themed bootanimation
-TARGET_MISC_BLOCK_OFFSET ?= 0
-PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
-    ro.misc.block.offset=$(TARGET_MISC_BLOCK_OFFSET)
-PRODUCT_PACKAGES += \
-    misc_writer_system \
-    themed_bootanimation
 
 ifeq ($(TARGET_BUILD_GAPPS),true)
     $(call inherit-product-if-exists, vendor/google/gms/config.mk)
